@@ -21,7 +21,7 @@ pipeline {
     
     stage ('Deploy-To-Tomcat') {
             steps {
-            sh 'scp -o StrictHostKeyChecking=no target/*.war localhost:/opt/apache-tomcat-8.5.78/webapps/webapp.war'
+            sh 'scp  target/*.war localhost:/opt/apache-tomcat-8.5.78/webapps/webapp.war'
               }      
            }       
     
