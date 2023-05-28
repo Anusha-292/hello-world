@@ -4,12 +4,12 @@ pipeline {
     maven 'maven'
   }
   
-  stages {
-    stage('Git Checkout'){
-            steps {
-               checkout scm
-             }
-        }
+  //stages {
+   // stage('Git Checkout'){
+       //     steps {
+          //     checkout scm
+           //  }
+      //  }
     
     stage('UNIT Testing'){
         steps{
