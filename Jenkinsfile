@@ -26,8 +26,8 @@ pipeline {
       steps {
         withSonarQubeEnv('sonar') {
           sh 'export JAVA_HOME=/usr/bin/java'
-          //sh 'mvn sonar:sonar'
-          //sh 'cat target/sonar/report-task.txt'
+          sh 'mvn sonar:sonar'
+          sh 'cat target/sonar/report-task.txt'
         }
       }
     }
