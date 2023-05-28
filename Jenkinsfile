@@ -56,15 +56,15 @@ pipeline {
     }
     
     stage ('Deploy-To-Tomcat') {
-            steps {
+        steps {
              sh 'scp  webapp/target/*.war /data/apache-tomcat-8.5.78/webapps/webapp.war'
               }      
            }   
+    
     stage ('DAST') {
-            steps {
-                sh ' "docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.93.225.235:8090/webapp/" || true'
+         steps {
+             sh ' "docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.93.225.235:8090/webapp/" || true'
             }
         }
-    
-}
+    }
   }
