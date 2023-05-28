@@ -6,8 +6,8 @@ pipeline {
   stages {
         stage ('Check-Git-Secrets') {
       steps {
-       // sh 'rm trufflehog || true'
-       // sh 'docker run gesellix/trufflehog --json https://github.com/tusharjadhav29/hello-world.git > trufflehog'
+        sh 'rm trufflehog || true'
+        sh 'docker run gesellix/trufflehog --json https://github.com/tusharjadhav29/hello-world.git > trufflehog'
         sh 'cat trufflehog'
       }
     }
@@ -30,12 +30,6 @@ pipeline {
         }
       }
     }
-    
-   // stage('Git Checkout'){
-       //     steps {
-          //     checkout scm
-           //  }
-      //  }
     
     stage('UNIT Testing'){
         steps{
