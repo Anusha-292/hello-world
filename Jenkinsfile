@@ -60,7 +60,7 @@ pipeline {
              sh 'scp  webapp/target/*.war /data/apache-tomcat-8.5.78/webapps/webapp.war'
               }      
            }   
-    stage('DAST') {
+    stage ('DAST') {
             steps {
                 sh ' "docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.93.225.235:8090/webapp/" || true'
             }
