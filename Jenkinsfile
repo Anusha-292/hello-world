@@ -62,7 +62,7 @@ pipeline {
     
     stage ('DAST') {
       steps {
-      sh 'echo test'
+      sh 'docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.93.225.235:8090/webapp/'
        }
     }
     }
