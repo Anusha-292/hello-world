@@ -62,7 +62,8 @@ pipeline {
     
     stage ('DAST') {
       steps {
-      sh 'docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.93.225.235:8090/webapp/'
+      //sh 'docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.93.225.235:8090/webapp/''
+        sh 'docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.69.24.191:9090/saigurus/'
        }
     }
     }
