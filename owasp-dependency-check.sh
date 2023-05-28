@@ -13,6 +13,7 @@ if [ ! -d "$DATA_DIRECTORY" ]; then
     chmod -R 777 "$REPORT_DIRECTORY"
 fi
 
+
 # Make sure we are using the latest version
 docker pull owasp/dependency-check
 
