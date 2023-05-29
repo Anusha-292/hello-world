@@ -39,7 +39,7 @@ pipeline {
     stage('UNIT Testing'){
         steps{
             script {
-                sh 'mvn -X test'
+                sh 'sudo mvn -X test'
                 }
             }
         }
