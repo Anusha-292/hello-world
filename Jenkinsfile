@@ -6,8 +6,8 @@ pipeline {
   stages {
         stage ('Check-Git-Secrets') {
       steps {
-       // sh 'rm trufflehog || true'
-      //  sh 'docker run gesellix/trufflehog --json https://github.com/tusharjadhav29/hello-world.git > trufflehog'
+        sh 'rm trufflehog || true'
+        sh 'docker run gesellix/trufflehog --json https://github.com/tusharjadhav29/hello-world.git > trufflehog'
         sh 'cat trufflehog'
       }
     }
@@ -16,18 +16,18 @@ pipeline {
       steps {
          //sh 'rm owasp* || true'
          //sh 'wget "https://github.com/tusharjadhav29/hello-world/webapp/master/owasp-dependency-check.sh" '
-         //sh 'chmod +x owasp-dependency-check.sh'
-        // sh 'bash owasp-dependency-check.sh'
+         sh 'chmod +x owasp-dependency-check.sh'
+         sh 'bash owasp-dependency-check.sh'
          sh 'cat /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml'
       }
     }
     
    stage ('SAST') {
       steps {
-        withSonarQubeEnv('sonar') {
+       // withSonarQubeEnv('sonar') {
           sh 'export JAVA_HOME=/usr/bin/java'
-          sh 'mvn sonar:sonar'
-          sh 'cat target/sonar/report-task.txt'
+       //   sh 'mvn sonar:sonar'
+       //   sh 'cat target/sonar/report-task.txt'
         }
       }
     }
@@ -63,7 +63,7 @@ pipeline {
     stage ('DAST') {
       steps {
       //sh 'docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.93.225.235:8090/webapp/''
-        sh '"docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.93.225.235:8090/webapp/" || true'
+        sh '"docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.100.148.244:8090/webapp/" || true'
        }
     }
     }
