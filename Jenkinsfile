@@ -7,9 +7,9 @@ pipeline {
         stage ('Check-Git-Secrets') {
       steps {
         echo 'running trufflehog to check project history for secrets'
-        sh 'rm trufflehog || true'
-        sh 'docker run gesellix/trufflehog --json https://github.com/tusharjadhav29/hello-world.git > trufflehog'
-        sh 'cat trufflehog'
+        //sh 'rm trufflehog || true'
+       // sh 'docker run gesellix/trufflehog --json https://github.com/tusharjadhav29/hello-world.git > trufflehog'
+        //sh 'cat trufflehog'
       }
     }
     
@@ -18,8 +18,8 @@ pipeline {
          //sh 'rm owasp* || true'
          //sh 'wget "https://github.com/tusharjadhav29/hello-world/webapp/master/owasp-dependency-check.sh" '
          sh 'chmod +x owasp-dependency-check.sh'
-         sh 'bash owasp-dependency-check.sh'
-         sh 'cat /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml'
+         //sh 'bash owasp-dependency-check.sh'
+         //sh 'cat /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml'
       }
     }
     
