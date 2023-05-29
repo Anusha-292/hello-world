@@ -28,10 +28,10 @@ pipeline {
         withSonarQubeEnv('sonar') {
           echo 'Testing source code for security bugs and vulnerabilities'
           //sh 'export JAVA_HOME=/usr/bin/java'
-         // sh 'java -version' 
+          // sh 'java -version' 
          // sh 'mvn -version'
-          //sh 'mvn sonar:sonar'
-      // sh 'cat target/sonar/report-task.txt'
+         //sh 'mvn sonar:sonar'
+         // sh 'cat target/sonar/report-task.txt'
         }
       }
     }
@@ -39,7 +39,8 @@ pipeline {
     stage('UNIT Testing'){
         steps{
             script {
-                sh 'sudo mvn -X test'
+                sh 'sudo mvn clean'
+                sh 'sudo mvn test'
                 }
             }
         }
