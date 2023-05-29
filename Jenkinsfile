@@ -7,9 +7,9 @@ pipeline {
         stage ('Check-Git-Secrets') {
       steps {
         echo 'running trufflehog to check project history for secrets'
-        //sh 'rm trufflehog || true'
-       // sh 'docker run gesellix/trufflehog --json https://github.com/tusharjadhav29/hello-world.git > trufflehog'
-        //sh 'cat trufflehog'
+        sh 'rm trufflehog || true'
+        sh 'docker run gesellix/trufflehog --json https://github.com/tusharjadhav29/hello-world.git > trufflehog'
+        sh 'cat trufflehog'
       }
     }
     
@@ -18,23 +18,21 @@ pipeline {
          //sh 'rm owasp* || true'
          //sh 'wget "https://github.com/tusharjadhav29/hello-world/webapp/master/owasp-dependency-check.sh" '
          sh 'chmod +x owasp-dependency-check.sh'
-         //sh 'bash owasp-dependency-check.sh'
-         //sh 'cat /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml'
+         sh 'bash owasp-dependency-check.sh'
+         sh 'cat /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml'
       }
     }
     
    stage ('SAST') {
       steps {
-        withSonarQubeEnv('sonar') {
           echo 'Testing source code for security bugs and vulnerabilities'
-          //sh 'export JAVA_HOME=/usr/bin/java'
-          // sh 'java -version' 
-         // sh 'mvn -version'
-         //sh 'mvn sonar:sonar'
-         // sh 'cat target/sonar/report-task.txt'
+          sh 'export sonar-scanner=/data/sonar-scanner-4.8.0.2856-linux/bin'
+          sh 'sonar-scanner -version' 
+          //sh 'mvn -version'
+         sh '/data/sonar-scanner-4.8.0.2856-linux/bin/sonar-scanner -Dsonar.projectKey=devsecops -Dsonar.sources=. -Dsonar.host.url=http://34.100.148.244:9000 -Dsonar.token=sqa_2810d9cd6a44cf8f277282e3536d8f300738f6b3'
+         //sh 'cat target/sonar/report-task.txt'
         }
       }
-    }
     
     stage('UNIT Testing'){
         steps{
@@ -67,7 +65,7 @@ pipeline {
     stage ('DAST') {
       steps {
       //sh 'docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.93.225.235:8090/webapp/'
-        sh " 'docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.100.148.244:8090/webapp/' || true"
+        sh '"docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.100.148.244:8090/webapp" || true '
        }
     }
     }
