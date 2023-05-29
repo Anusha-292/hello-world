@@ -28,6 +28,8 @@ pipeline {
         withSonarQubeEnv('sonar') {
           echo 'Testing source code for security bugs and vulnerabilities'
           sh 'export JAVA_HOME=/usr/bin/java'
+          sh "java -version' 
+          sh 'mvn -version'
           sh 'mvn sonar:sonar'
        sh 'cat target/sonar/report-task.txt'
         }
