@@ -68,6 +68,8 @@ pipeline {
         sh '"docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.100.252.84:8090/webapp" || true '
        }
     }
+  }
+  stages{
     stage ('Email Notification') {
       steps {
         emailext attachLog: true, body: '''Hi This Email is for testing DevSecOps pipeline. Anusha''', replyTo: 'newrelic29@gmail.com', subject: 'Notification Testing ', to: 'newrelic29@gmail.com'
