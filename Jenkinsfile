@@ -69,9 +69,9 @@ pipeline {
        }
     }
     stage ('Email Notification') {
-    emailext attachLog: true, body: '''Hi 
-    This Email is for testing DevSecOps pipeline.
-    Anusha''', replyTo: 'newrelic29@gmail.com', subject: 'Notification Testing ', to: 'newrelic29@gmail.com'
-    }
+      steps {
+        emailext attachLog: true, body: '''Hi This Email is for testing DevSecOps pipeline. Anusha''', replyTo: 'newrelic29@gmail.com', subject: 'Notification Testing ', to: 'newrelic29@gmail.com'
+        }
     }
   }
+}
