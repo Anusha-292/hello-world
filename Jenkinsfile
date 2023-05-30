@@ -68,5 +68,7 @@ pipeline {
         sh '"docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.100.252.84:8090/webapp" || true '
        }
     }
+    stage ('Email Notification') {
+      
     }
   }
