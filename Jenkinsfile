@@ -31,7 +31,7 @@ pipeline {
           //sh 'export sonar-scanner=/data/sonar-scanner-4.8.0.2856-linux/bin'
          // sh 'sonar-scanner -version' 
           //sh 'mvn -version'
-         sh 'sudo /data/sonar-scanner-4.8.0.2856-linux/bin/sonar-scanner -Dsonar.projectKey=test -Dsonar.sources=. -Dsonar.host.url=http://34.100.252.84:9000 -Dsonar.token=sqp_96539761f109d1f5212ba3da724718e67aed9962'
+         sh 'sudo /data/sonar-scanner-4.8.0.2856-linux/bin/sonar-scanner -Dsonar.projectKey=devsecops -Dsonar.sources=. -Dsonar.host.url=http://34.100.252.84:9000 -Dsonar.token=sqa_2810d9cd6a44cf8f277282e3536d8f300738f6b3'
          //sh 'cat target/sonar/report-task.txt'
         }
       }
@@ -73,7 +73,7 @@ pipeline {
       
     stage ('Email Notification') {
       steps {
-        emailext attachLog: true, body: '''Hi This Email is for testing DevSecOps pipeline. Anusha''', replyTo: 'newrelic29@gmail.com', subject: 'Notification Testing ', to: 'newrelic29@gmail.com'
+        emailext attachLog: true, body: '''Hi This Email is for testing DevSecOps pipeline. Tushar''', replyTo: 'newrelic29@gmail.com', subject: 'Notification Testing ', to: 'newrelic29@gmail.com'
         }
     }
     }
