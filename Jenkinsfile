@@ -70,11 +70,17 @@ pipeline {
         sh "`docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.100.252.84:8090/webapp` || true"
        }
     }
-      
-    stage ('Email Notification') {
-      steps {
-        emailext attachLog: true, body: '''Hi This Email is for testing DevSecOps pipeline. Anusha''', replyTo: 'newrelic29@gmail.com', subject: 'Notification Testing ', to: 'newrelic29@gmail.com'
-        }
-    }
+    
+    post{
+      always{
+        emailext body: 'Deployment is being started', subject: 'Email confirmation', to: 'newrelic29@gmail.com'
+      }
+      success{
+        emailext body: 'job is deployed successfully', subject: 'Email confirmation', to: 'newrelic29@gmail.com'
+      }
+      failure{
+        emailext body: "<b>Example</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", to: 'newrelic29@gmail.com', subject: "ERROR CI: Project name -> ${env.JOB_NAME}"
+      }
     }
   }
+}
