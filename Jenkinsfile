@@ -6,17 +6,19 @@ pipeline {
   stages {
         stage ('Check-Git-Secrets') {
       steps {
+        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
         echo 'running trufflehog to check project history for secrets'
         sh 'rm trufflehog || true'
-        sh 'docker run gesellix/trufflehog --json https://github.com/Anusha-292/hello-world.git > trufflehog'
+        sh 'docker run gesellix/trufflehog --json https://github.com/tusharjadhav29/hello-world.git > trufflehog'
         sh 'cat trufflehog'
+        }
       }
     }
     
    stage ('Source Composition Analysis') {
       steps {
          //sh 'rm owasp* || true'
-         //sh 'wget "https://github.com/Anusha-292/hello-world/webapp/master/owasp-dependency-check.sh" '
+         //sh 'wget "https://github.com/tusharjadhav29/hello-world/webapp/master/owasp-dependency-check.sh" '
          sh 'chmod +x owasp-dependency-check.sh'
          sh 'bash owasp-dependency-check.sh'
          sh 'cat /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml'
@@ -29,7 +31,7 @@ pipeline {
           //sh 'export sonar-scanner=/data/sonar-scanner-4.8.0.2856-linux/bin'
          // sh 'sonar-scanner -version' 
           //sh 'mvn -version'
-         sh 'sudo /data/sonar-scanner-4.8.0.2856-linux/bin/sonar-scanner -Dsonar.projectKey=test -Dsonar.sources=. -Dsonar.host.url=http://34.100.252.84:9000 -Dsonar.token=sqp_96539761f109d1f5212ba3da724718e67aed9962'
+         sh 'sudo /data/sonar-scanner-4.8.0.2856-linux/bin/sonar-scanner -Dsonar.projectKey=devsecops -Dsonar.sources=. -Dsonar.host.url=http://34.100.252.84:9000 -Dsonar.token=sqa_2810d9cd6a44cf8f277282e3536d8f300738f6b3'
          //sh 'cat target/sonar/report-task.txt'
         }
       }
@@ -65,13 +67,14 @@ pipeline {
     stage ('DAST') {
       steps {
       //sh 'docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.93.225.235:8090/webapp/'
-        sh '"docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.100.252.84:8090/webapp" || true '
+        sh "`docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.100.252.84:8090/webapp` || true"
        }
     }
+      
     stage ('Email Notification') {
       steps {
-        emailext attachLog: true, body: '''Hi This Email is for testing DevSecOps pipeline. Anusha''', replyTo: 'newrelic29@gmail.com', subject: 'Notification Testing ', to: 'newrelic29@gmail.com'
+        emailext attachLog: true, body: '''Hi This Email is for testing DevSecOps pipeline. Tushar''', replyTo: 'tushar.jadhav29@gmail.com', subject: 'Notification Testing ', to: 'tushar.jadhav29@gmail.com'
         }
     }
+    }
   }
-}
