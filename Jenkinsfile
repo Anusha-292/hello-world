@@ -22,7 +22,7 @@ pipeline {
          sh 'chmod +x owasp-dependency-check.sh'
          sh 'bash owasp-dependency-check.sh'
          //sh 'cat /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml'
-		     sh 'mv OWASP-Dependency-Check/reports/dependency-check-report.html ${WORKSPACE}'
+         sh 'cp $WORKSPACE/OWASP-Dependency-Check/reports/dependency-check-report.html $WORKSPACE/dependency-check-report.html'
       }
     }
     
