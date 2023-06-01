@@ -75,7 +75,7 @@ pipeline {
     post {
       always {
         emailext body: 'Deployment is being started', subject: 'Email confirmation', to: 'newrelic29@gmail.com'
-		    archiveArtifacts artifacts: '/var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml', onlyIfSuccessful: true
+		    //archiveArtifacts artifacts: '/var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml', onlyIfSuccessful: true
       }
       success {
         emailext body: "Project: ${env.JOB_NAME}",mimeType: 'text/html', subject: 'Email confirmation', to: 'newrelic29@gmail.com', attachmentsPattern:'/var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.html'
