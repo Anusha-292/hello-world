@@ -66,7 +66,7 @@ pipeline {
     
     stage ('DAST') {
       steps {
-      //sh 'docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.93.225.235:8090/webapp/'
+      //sh 'docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.93.3122:8090/webapp/'
         sh "`docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.93.31.22:8090/webapp` || true"
        }
     }
@@ -77,7 +77,7 @@ pipeline {
         emailext body: 'Deployment is being started', subject: 'Email confirmation', to: 'newrelic29@gmail.com'
       }
       success {
-        emailext body: 'job is deployed successfully', subject: 'Email confirmation', to: 'newrelic29@gmail.com'
+        emailext body: readFile("target/surefire-reports/com.example.TestGreeter.txt"),mimeType: 'text/html', subject: 'Email confirmation', to: 'newrelic29@gmail.com'
       }
       failure {
         emailext body: "<b>Example</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", to: 'newrelic29@gmail.com', subject: "ERROR CI: Project name -> ${env.JOB_NAME}"
