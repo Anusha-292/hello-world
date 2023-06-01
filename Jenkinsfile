@@ -77,7 +77,7 @@ pipeline {
         emailext body: 'Deployment is being started', subject: 'Email confirmation', to: 'newrelic29@gmail.com'
       }
       success {
-        emailext body: readFile("/reports/dependency-check-report.xml"),mimeType: 'text/html', subject: 'Email confirmation', to: 'newrelic29@gmail.com'
+        emailext body: readFile("/server/target/surefire-reports/com.example.TestGreeter.txt"),mimeType: 'text/html', subject: 'Email confirmation', to: 'newrelic29@gmail.com'
       }
       failure {
         emailext body: "<b>Example</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL build: ${env.BUILD_URL}", to: 'newrelic29@gmail.com', subject: "ERROR CI: Project name -> ${env.JOB_NAME}"
