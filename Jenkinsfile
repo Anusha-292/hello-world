@@ -21,7 +21,8 @@ pipeline {
          //sh 'wget "https://github.com/tusharjadhav29/hello-world/webapp/master/owasp-dependency-check.sh" '
          sh 'chmod +x owasp-dependency-check.sh'
          sh 'bash owasp-dependency-check.sh'
-         sh 'cat /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml'
+         //sh 'cat /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml'
+		     sh 'mv OWASP-Dependency-Check/reports/dependency-check-report.html ${WORKSPACE}
       }
     }
     
@@ -77,7 +78,7 @@ pipeline {
         emailext body: 'Deployment is being started', subject: 'Email confirmation', to: 'newrelic29@gmail.com'
       }
       success {
-        emailext body: "Project: ${env.JOB_NAME}",mimeType: 'text/html', subject: 'HTML Report', to: 'newrelic29@gmail.com', attachmentsPattern:'/var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.html'
+        emailext body: "Project: ${env.JOB_NAME}",mimeType: 'text/html', subject: 'Email confirmation', to: 'newrelic29@gmail.com', attachmentsPattern:'dependency-check-report.html'
       }
       failure {
         emailext body: "<b>Example</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL build: ${env.BUILD_URL}", to: 'newrelic29@gmail.com', subject: "ERROR CI: Project name -> ${env.JOB_NAME}"
