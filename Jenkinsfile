@@ -9,7 +9,7 @@ pipeline {
         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
         echo 'running trufflehog to check project history for secrets'
         sh 'rm trufflehog || true'
-        sh 'docker run gesellix/trufflehog --json https://github.com/tusharjadhav29/hello-world.git > trufflehog'
+        sh 'docker run gesellix/trufflehog --json https://github.com/Anusha-292/hello-world.git > trufflehog'
         sh 'cat trufflehog'
         }
       }
@@ -77,7 +77,7 @@ pipeline {
         emailext body: 'Deployment is being started', subject: 'Email confirmation', to: 'newrelic29@gmail.com'
       }
       success {
-        emailext body: readFile("/server/target/surefire-reports/com.example.TestGreeter.txt"),mimeType: 'text/html', subject: 'Email confirmation', to: 'newrelic29@gmail.com'
+        emailext body: readFile("/var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.html"),mimeType: 'text/html', subject: 'Email confirmation', to: 'newrelic29@gmail.com'
       }
       failure {
         emailext body: "<b>Example</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL build: ${env.BUILD_URL}", to: 'newrelic29@gmail.com', subject: "ERROR CI: Project name -> ${env.JOB_NAME}"
