@@ -31,7 +31,7 @@ pipeline {
           //sh 'export sonar-scanner=/data/sonar-scanner-4.8.0.2856-linux/bin'
          // sh 'sonar-scanner -version' 
           //sh 'mvn -version'
-         sh 'sudo /data/sonar-scanner-4.8.0.2856-linux/bin/sonar-scanner -Dsonar.projectKey=devsecops -Dsonar.sources=. -Dsonar.host.url=http://34.100.252.84:9000 -Dsonar.token=sqa_2810d9cd6a44cf8f277282e3536d8f300738f6b3'
+         sh 'sudo /data/sonar-scanner-4.8.0.2856-linux/bin/sonar-scanner -Dsonar.projectKey=devsecops -Dsonar.sources=. -Dsonar.host.url=http://34.93.31.22:9000 -Dsonar.token=sqa_2810d9cd6a44cf8f277282e3536d8f300738f6b3'
          //sh 'cat target/sonar/report-task.txt'
         }
       }
@@ -67,7 +67,7 @@ pipeline {
     stage ('DAST') {
       steps {
       //sh 'docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.93.225.235:8090/webapp/'
-        sh "`docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.100.252.84:8090/webapp` || true"
+        sh "`docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.93.31.22:8090/webapp` || true"
        }
     }
   }
