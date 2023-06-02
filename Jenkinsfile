@@ -82,7 +82,7 @@ pipeline {
     
     post {
       success {
-        emailext body: "<b>Project: ${env.JOB_NAME}</b><br>Build Number: ${env.BUILD_NUMBER}",mimeType: 'text/html', subject: 'DevSecOps vulnerabilities testing is Successful', to: 'newrelic29@gmail.com', attachmentsPattern:'dependency-check-report.html','trufflehog.txt', attachLog: true
+        emailext body: "<b>Project: ${env.JOB_NAME}</b><br>Build Number: ${env.BUILD_NUMBER}",mimeType: 'text/html', subject: 'DevSecOps vulnerabilities testing is Successful', to: 'newrelic29@gmail.com', attachmentsPattern:'dependency-check-report.html';'trufflehog.txt', attachLog: true
       }
       failure {
         emailext body: "<b>Project: ${env.JOB_NAME}</b> <br>Build Number: ${env.BUILD_NUMBER} ", to: 'newrelic29@gmail.com', subject: "ERROR CI: Project name -> ${env.JOB_NAME}",attachLog: true
