@@ -21,8 +21,9 @@ pipeline {
          //sh 'wget "https://github.com/tusharjadhav29/hello-world/webapp/master/owasp-dependency-check.sh" '
          sh 'chmod +x owasp-dependency-check.sh'
          sh 'bash owasp-dependency-check.sh'
-         sh 'cat /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml'
-		 }
+         //sh 'cat /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml'
+	 sh 'cp  /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml /var/lib/jenkins/dependency-check-report.xml'
+	 }
     }
     
    stage ('SAST') {
@@ -75,10 +76,10 @@ pipeline {
     post {
       always {
         emailext body: 'Deployment is being started', subject: 'Email confirmation', to: 'newrelic29@gmail.com'
-		    //archiveArtifacts artifacts: '/var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml', onlyIfSuccessful: true
+		//archiveArtifacts artifacts: '/var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml', onlyIfSuccessful: true
       }
       success {
-        emailext body: "Project: ${env.JOB_NAME}",mimeType: 'text/html', subject: 'Email confirmation', to: 'newrelic29@gmail.com', attachmentsPattern:'/var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.html'
+        emailext body: "Project: ${env.JOB_NAME}",mimeType: 'text/html', subject: 'HTML Testing', to: 'newrelic29@gmail.com', attachmentsPattern:'/var/lib/jenkins/dependency-check-report.xml'
       }
       failure {
         emailext body: "<b>Example</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL build: ${env.BUILD_URL}", to: 'newrelic29@gmail.com', subject: "ERROR CI: Project name -> ${env.JOB_NAME}"
