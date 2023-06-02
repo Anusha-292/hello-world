@@ -22,7 +22,7 @@ pipeline {
          sh 'chmod +x owasp-dependency-check.sh'
          sh 'bash owasp-dependency-check.sh'
          //sh 'cat /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml'
-	 sh 'cp  /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml ${WORKSPACE}'
+	 sh 'cp  /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.html ${WORKSPACE}'
 	 }
     }
     
@@ -79,7 +79,7 @@ pipeline {
 		//archiveArtifacts artifacts: '/var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml', onlyIfSuccessful: true
       }
       success {
-        emailext body: "Project: ${env.JOB_NAME}",mimeType: 'text/html', subject: 'HTML Testing', to: 'newrelic29@gmail.com', attachmentsPattern:'dependency-check-report.xml'
+        emailext body: "Project: ${env.JOB_NAME}",mimeType: 'text/html', subject: 'HTML Testing', to: 'newrelic29@gmail.com', attachmentsPattern:'dependency-check-report.html'
       }
       failure {
         emailext body: "<b>Example</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL build: ${env.BUILD_URL}", to: 'newrelic29@gmail.com', subject: "ERROR CI: Project name -> ${env.JOB_NAME}"
