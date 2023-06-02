@@ -4,13 +4,20 @@ pipeline {
     maven 'maven'
   }
   stages {
-        stage ('Check-Git-Secrets') {
-      steps {
-        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
-        echo 'running trufflehog to check project history for secrets'
-        sh 'rm trufflehog || true'
-        sh 'docker run gesellix/trufflehog --json https://github.com/Anusha-292/hello-world.git > trufflehog'
-        sh 'cat trufflehog'
+	  stage ('Email')
+	  	steps {
+			always {
+			  emailext body: "<br>Deployment is being started <br>Project: ${env.JOB_NAME} ", subject: 'DevSecOps Vulnerability tetsting', to: 'newrelic29@gmail.com'
+			  }
+		}
+	}
+    stage ('Check-Git-Secrets') {
+		steps {
+			catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
+			echo 'running trufflehog to check project history for secrets'
+			sh 'rm trufflehog || true'
+			sh 'docker run gesellix/trufflehog --json https://github.com/Anusha-292/hello-world.git > trufflehog.txt'
+			sh 'cat trufflehog.txt'
         }
       }
     }
@@ -74,15 +81,11 @@ pipeline {
   }
     
     post {
-      always {
-        emailext body: 'Deployment is being started', subject: 'Email confirmation', to: 'newrelic29@gmail.com'
-		//archiveArtifacts artifacts: '/var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml', onlyIfSuccessful: true
-      }
       success {
-        emailext body: "Project: ${env.JOB_NAME}",mimeType: 'text/html', subject: 'HTML Testing', to: 'newrelic29@gmail.com', attachmentsPattern:'dependency-check-report.html'
+        emailext body: "<b>Project: ${env.JOB_NAME}</b><br>Build Number: ${env.BUILD_NUMBER}",mimeType: 'text/html', subject: 'DevSecOps vulnerabilities testing is Successful', to: 'newrelic29@gmail.com', attachmentsPattern:'dependency-check-report.html','trufflehog.txt', attachLog: true
       }
       failure {
-        emailext body: "<b>Example</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL build: ${env.BUILD_URL}", to: 'newrelic29@gmail.com', subject: "ERROR CI: Project name -> ${env.JOB_NAME}"
+        emailext body: "<b>Project: ${env.JOB_NAME}</b> <br>Build Number: ${env.BUILD_NUMBER} ", to: 'newrelic29@gmail.com', subject: "ERROR CI: Project name -> ${env.JOB_NAME}",attachLog: true
       }
     }
 }
