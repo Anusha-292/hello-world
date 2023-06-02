@@ -4,7 +4,7 @@ pipeline {
     maven 'maven'
   }
   stages {
-	  stage ('Email')
+	  stage ('Email') {
 	  	steps {
 			always {
 			  emailext body: "<br>Deployment is being started <br>Project: ${env.JOB_NAME} ", subject: 'DevSecOps Vulnerability tetsting', to: 'newrelic29@gmail.com'
@@ -88,4 +88,5 @@ pipeline {
         emailext body: "<b>Project: ${env.JOB_NAME}</b> <br>Build Number: ${env.BUILD_NUMBER} ", to: 'newrelic29@gmail.com', subject: "ERROR CI: Project name -> ${env.JOB_NAME}",attachLog: true
       }
     }
+}
 }
