@@ -79,7 +79,7 @@ pipeline {
 		//archiveArtifacts artifacts: '/var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml', onlyIfSuccessful: true
       }
       success {
-        emailext body: "Project: ${env.JOB_NAME}",mimeType: 'text/html', subject: 'HTML Testing', to: 'newrelic29@gmail.com', attachmentsPattern:'/var/lib/jenkins/dependency-check-report.xml'
+        emailext body: "Project: ${env.JOB_NAME}",mimeType: 'text/html', subject: 'HTML Testing', to: 'newrelic29@gmail.com', attachmentsPattern:'dependency-check-report.xml'
       }
       failure {
         emailext body: "<b>Example</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL build: ${env.BUILD_URL}", to: 'newrelic29@gmail.com', subject: "ERROR CI: Project name -> ${env.JOB_NAME}"
