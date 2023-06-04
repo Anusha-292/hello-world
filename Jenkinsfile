@@ -4,13 +4,6 @@ pipeline {
     maven 'maven'
   }
   stages {
-	  stage ('Email') {
-	  	steps {
-			always {
-			  emailext body: "<br>Deployment is being started <br>Project: ${env.JOB_NAME} ", subject: 'DevSecOps Vulnerability tetsting', to: 'newrelic29@gmail.com'
-			  }
-		}
-	}
     stage ('Check-Git-Secrets') {
 		steps {
 			catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
