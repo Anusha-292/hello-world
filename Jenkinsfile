@@ -4,13 +4,13 @@ pipeline {
     maven 'maven'
   }
   stages {
-    stage ('Check-Git-Secrets') {
-		steps {
-			catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
-			echo 'running trufflehog to check project history for secrets'
-			sh 'rm trufflehog || true'
-			sh 'docker run gesellix/trufflehog --json https://github.com/Anusha-292/hello-world.git > trufflehog.txt'
-			sh 'cat trufflehog.txt'
+        stage ('Check-Git-Secrets') {
+      steps {
+        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
+        echo 'running trufflehog to check project history for secrets'
+        sh 'rm trufflehog || true'
+        sh 'docker run gesellix/trufflehog --json https://github.com/Anusha-292/hello-world.git > trufflehog'
+        sh 'cat trufflehog'
         }
       }
     }
@@ -32,7 +32,7 @@ pipeline {
           //sh 'export sonar-scanner=/data/sonar-scanner-4.8.0.2856-linux/bin'
          // sh 'sonar-scanner -version' 
           //sh 'mvn -version'
-         sh 'sudo /data/sonar-scanner-4.8.0.2856-linux/bin/sonar-scanner -Dsonar.projectKey=devsecops -Dsonar.sources=. -Dsonar.host.url=http://34.93.31.22:9000 -Dsonar.token=sqa_2810d9cd6a44cf8f277282e3536d8f300738f6b3'
+         sh 'sudo /data/sonar-scanner-4.8.0.2856-linux/bin/sonar-scanner -Dsonar.projectKey=devsecops -Dsonar.sources=. -Dsonar.host.url=http://34.93.175.180:9000 -Dsonar.token=sqa_2810d9cd6a44cf8f277282e3536d8f300738f6b3'
          //sh 'cat target/sonar/report-task.txt'
         }
       }
@@ -68,17 +68,21 @@ pipeline {
     stage ('DAST') {
       steps {
       //sh 'docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.93.3122:8090/webapp/'
-        sh "`docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.93.31.22:8090/webapp` || true"
+        sh "`docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.93.175.180:8090/webapp` || true"
        }
     }
   }
     
     post {
+      always {
+        emailext body: 'Deployment is being started', subject: 'Email confirmation', to: 'newrelic29@gmail.com'
+		//archiveArtifacts artifacts: '/var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml', onlyIfSuccessful: true
+      }
       success {
-        emailext body: "<b>Project: ${env.JOB_NAME}</b><br>Build Number: ${env.BUILD_NUMBER}",mimeType: 'text/html', subject: 'DevSecOps vulnerabilities testing is Successful', to: 'newrelic29@gmail.com', attachmentsPattern:'dependency-check-report.html,trufflehog.txt', attachLog: true
+        emailext body: "Project: ${env.JOB_NAME}",mimeType: 'text/html', subject: 'HTML Testing', to: 'newrelic29@gmail.com,bandi.anusha@ril.com', attachmentsPattern:'dependency-check-report.html'
       }
       failure {
-        emailext body: "<b>Project: ${env.JOB_NAME}</b> <br>Build Number: ${env.BUILD_NUMBER} ", to: 'newrelic29@gmail.com', subject: "ERROR CI: Project name -> ${env.JOB_NAME}",attachLog: true
+        emailext body: "<b>Example</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL build: ${env.BUILD_URL}", to: 'newrelic29@gmail.com,bandi.anusha@ril.com', subject: "ERROR CI: Project name -> ${env.JOB_NAME}"
       }
     }
 }
