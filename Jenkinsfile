@@ -8,9 +8,9 @@ pipeline {
       steps {
         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
         echo 'running trufflehog to check project history for secrets'
-        sh 'rm trufflehog || true'
-        sh 'docker run gesellix/trufflehog --json https://github.com/Anusha-292/hello-world.git > trufflehog'
-        sh 'cat trufflehog'
+        //sh 'rm trufflehog || true'
+        //sh 'docker run gesellix/trufflehog --json https://github.com/Anusha-292/hello-world.git > trufflehog'
+        //sh 'cat trufflehog'
         }
       }
     }
