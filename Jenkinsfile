@@ -18,7 +18,7 @@ pipeline {
    stage ('Source Composition Analysis') {
       steps {
          //sh 'rm owasp* || true'
-         //sh 'wget "https://github.com/tusharjadhav29/hello-world/webapp/master/owasp-dependency-check.sh" '
+         sh 'wget "https://github.com/Anusha-292/hello-world/webapp/master/owasp-dependency-check.sh" '
          sh 'chmod +x owasp-dependency-check.sh'
          sh 'bash owasp-dependency-check.sh'
          //sh 'cat /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml'
@@ -32,7 +32,7 @@ pipeline {
           //sh 'export sonar-scanner=/data/sonar-scanner-4.8.0.2856-linux/bin'
          // sh 'sonar-scanner -version' 
           //sh 'mvn -version'
-         sh 'sudo /data/sonar-scanner-4.8.0.2856-linux/bin/sonar-scanner -Dsonar.projectKey=devsecops -Dsonar.sources=. -Dsonar.host.url=http://34.93.175.180:9000 -Dsonar.token=sqa_2810d9cd6a44cf8f277282e3536d8f300738f6b3'
+         sh 'sudo /opt/sonar-scanner/bin/sonar-scanner -Dsonar.projectKey=devsecops -Dsonar.sources=. -Dsonar.host.url=http://10.159.174.198:9000 -Dsonar.token=sqa_433411677fdacd148c80cbb969e227e8b28b3923'
          //sh 'cat target/sonar/report-task.txt'
         }
       }
@@ -68,17 +68,17 @@ pipeline {
     stage ('DAST') {
       steps {
       //sh 'docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.93.3122:8090/webapp/'
-        sh "`docker run -t owasp/zap2docker-stable zap-baseline.py -t http://34.93.175.180:8090/webapp` || true"
+        sh "`docker run -t owasp/zap2docker-stable zap-baseline.py -t http://10.159.174.198:9090/webapp` || true"
        }
     }
   }
     
     post {
       success {
-        emailext body: "<b>Project: ${env.JOB_NAME}</b><br>Build Number: ${env.BUILD_NUMBER} <br>DevSecOps vulnerabilities testing is Successful",mimeType: 'text/html', subject: 'Vulnerabilities testing is Successful', to: 'bandi.anusha@ril.com,tushar5.jadhav@ril.com', attachmentsPattern:'dependency-check-report.html,trufflehog.txt', attachLog: true
+        emailext body: "<b>Project: ${env.JOB_NAME}</b><br>Build Number: ${env.BUILD_NUMBER} <br>DevSecOps vulnerabilities testing is Successful",mimeType: 'text/html', subject: 'Vulnerabilities testing is Successful', to: 'bandi.anusha@ril.com', attachmentsPattern:'dependency-check-report.html,trufflehog.txt', attachLog: true
       }
       failure {
-        emailext body: "<b>Project: ${env.JOB_NAME}</b> <br>Build Number: ${env.BUILD_NUMBER} ", to: 'bandi.anusha@ril.com,tushar5.jadhav@ril.com', subject: "ERROR CI: Project name -> ${env.JOB_NAME}",attachLog: true
+        emailext body: "<b>Project: ${env.JOB_NAME}</b> <br>Build Number: ${env.BUILD_NUMBER} ", to: 'bandi.anusha@ril.com', subject: "ERROR CI: Project name -> ${env.JOB_NAME}",attachLog: true
       }
     }
 }
